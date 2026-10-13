@@ -1,0 +1,37 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,nofollow"><meta name="color-scheme" content="light dark"><title>视觉设计依据 · CPA图解工作台</title><script>try{const t=localStorage.getItem("cpa-reader-appearance");if(["light","dark"].includes(t))document.documentElement.dataset.theme=t;}catch{}</script><link rel="stylesheet" href="../tokens.css"><link rel="stylesheet" href="lab.css?v=1"></head><body><header><a href="../">← 返回教材</a><span>图解工作台 · 试行</span></header><main class="doc"><nav class="workshop-nav" aria-label="制图工作台"><a href="./">基准样图</a><a href="references.html">经典资料与改造</a><a href="workflow.html">制作流程</a><a href="plan.html">本章32组覆盖</a><a href="briefs.html">制作单与脚本</a><a href="visual-design.html" aria-current="page">视觉设计依据</a></nav><h1>第六章阅读与图表视觉方案</h1>
+<p>日期：2026-10-10。范围：独立试读页；沿用已有题目、模型和经典教材图示依据。</p>
+<h2>界面精修：更早进入正文，阅读中便于对照</h2>
+<p>上一版把章节下拉、版本说明、知识点目录、来源文字、图解目录和重复图解入口分散排列。375px窗口的首个知识点约在673px处。本轮合并入口与留白后约在445px处，正文宽度和字号保持原设定。1280px从665px提前至472px。比较基线为4912d62，截图及几何读数见 <code>qa-interface/first-screen-comparison.json</code>。</p>
+<ul><li>章节信息与选择器在宽屏同排，手机保持自然的上下顺序；侧栏选中态使用已有操作蓝。</li><li>版本切换采用文字、下划线和字重共同标识，阅读时固定在纸张顶部；标题跳转预留80px，避免被遮挡。</li><li>知识点、图解和阅读说明集中在一行。次要说明仍可读取，数学前提和计算表继续放在正文与图旁。目录可用键盘操作，Escape关闭后焦点回到入口；当前知识点明确标出。</li><li>图表保留完整宽度，去掉控制区整块灰底和分项结果的重复框；用间距、细分隔及数值字重组织层次。曲线、计算过程和选中行承担注意力。</li></ul>
+<p>作者查看了1280/1920px浅色、375px深色、保护性看跌相加的暂停帧。320px检查发现版本文字换行使页首过高，减少分栏间距后保持一行。自动验证包含目录互斥开合、Escape焦点、点外关闭、图解跳转、三版对应和固定栏不遮挡标题；既有正文、图表及动画回归通过。没有独立设计审阅或实体设备测试。</p>
+<h2>学习的来源与实际采用</h2>
+<ul><li><a href="https://github.com/anthropics/skills/blob/main/skills/frontend-design/SKILL.md">Anthropic frontend-design / SKILL.md</a>：本次在线阅读全文，作为设计工作法使用；未声称全局安装。先定主题、字号、配色和构图，实施后看截图再修正。装饰、编号和色块必须有用途。</li><li><a href="https://primer.style/product/getting-started/foundations/layout/">Primer Layout</a>：自然阅读顺序、安静聚焦、移动端保持功能；不照搬桌面多栏。</li><li><a href="https://primer.style/product/primitives/typography/">Primer Typography</a>：明确标题、正文、辅助文字的角色和字号，不用同一字号承担全部层次。</li><li><a href="https://primer.style/product/components/button/guidelines/">Primer Button</a>：区分主要操作与次要操作，保持键盘焦点可见。</li><li><a href="https://primer.style/product/ui-patterns/data-visualization/">Primer Data visualization</a>：明确轴与单位、直接标注曲线、线型辅助区分、选中价格与表格对应。</li><li><a href="https://primer.style/product/ui-patterns/progressive-disclosure/">Primer Progressive disclosure</a>：仅将次要参考信息折叠，展开不打断当前阅读位置。</li></ul>
+<p>这些规范提供设计依据，不自动证明审美达标。本轮是作者截图复核与功能验证，不能称为独立设计审核或读者试读。</p>
+<h2>本项目的视觉方向</h2>
+<p>对象是读 CPA 教材的人。最重要的视觉内容是“价格变化后，哪一笔现金流怎样改变”。保留宽正文和分知识点阅读，每幅图始终围绕一个问题。界面采用克制的 GitHub 式文字、边界和控件层次；不加封面大数字、渐变、装饰插画或无关进场动画。</p>
+<p>浅色基础沿用项目变量：纸白 #ffffff、浅灰 #f5f5f7、主文字 #1d1d1f、次文字 #6e6e73、操作蓝 #0066cc、结论绿 #1f7a37。图形语义仍遵守共享规范：净收入靛色实线、净损益橙色虚线、合计绿色；深色使用同名主题变量，不修改共享 tokens。</p>
+<p>字体沿用系统无衬线中文字体；数学保留数学字体。正文 20px / 2，知识点标题 24px / 1.55，图标题 20px / 1.6，图内计算 15px，控件与辅助说明 12–14px。数字用等宽数字特性，不另换装饰字体。正文最大 1120px，用户仍可选 720px 标准宽度。</p>
+<p>间距以 4/8/12/16/24/32/48px 为骨架：相关对象靠近，知识点之间明显分开，边框只标识可操作图解、题目与表格的边界。</p>
+<h2>构图与自我批评</h2>
+<p>旧布局：图与公式并排，右侧仅 250px；播放远在表格之后。公式断裂，读者来回找计算和控件。</p>
+<p>采用的布局：</p>
+<pre style="overflow:auto;font-size:13px;line-height:1.8">知识点标题
+正文、定义与算例
+┌ 互动图解标题、观察问题、题设
+│ 调整参数 / 观察步骤           播放、结果、重置
+│                 完整宽度的图
+│ 当前情景计算                 读图要点
+│ 结论
+│ 价格情景计算表（点击与图联动）
+└ 图示依据与计算口径（按需展开）
+知识点要点 / 对照版本</pre>
+<p>不采用另一种常见的卡片墙布局：本章要连续推理，不能把每个自然段拆成等权卡片。正文保持开放排版；题目与解析连在同一块，普通强调与最终要点使用不同层次。删除图头重复标签，弱化辅助编号，图形和数字承担主要注意力。图表数值、模型前提和完整计算表不以美化为由删除。</p>
+<h2>发布前检查</h2>
+<p>先看实际“看涨空头、保护性看跌、BS长公式、自查题”桌面截图，检查焦点、主次、对齐与空白；再检查移动端和深色。随后覆盖三版本、八单元、42幅图的溢出与交互回归。自动验证只能检查功能、边界和内容保存；视觉判断必须另看截图。</p>
+<h2>本轮作者复核记录</h2>
+<p>实际查看了上述四类页面，以及 375px 深色的 BS、套利、保护性看跌图。截图审视后继续调整：单参数图的播放区在宽屏与参数同排，避免大块空白；流程区与下方柱形图增加间距；长公式位于横向计算区；表格保持数字右对齐，当前价格保留蓝色底与文字标识；题目和解析连成一个区块，去除要点里的重复荧光背景。</p>
+<p>实际检查：96组三版本布局；80组图解布局；660种参数或视图状态；40组宽度检查；42幅图位置与13张计算表的94行数据；16个题目/解析区块；152个非拓展精讲点的文字保存比对；键盘展开、参数更新、图表联动与减少动态效果。原文仍为64块、282个公式、23表、17图。测试报告保存在本预览源码目录。</p>
+<p>没有把以上结果记为独立设计审核、实体手机测试或学习效果证明。用户对画面和阅读节奏的反馈仍是下一轮修订依据。</p>
+<h2>曲线合成动画复核 · 2026-10-10</h2>
+<p>作者实际查看了保护性看跌相加的暂停帧、三执行价组合加入第三项的暂停帧，以及手机深色空头对敲的投入平移帧。修正了大金额刻度左侧截断、完成提示出现时推移图形、窗口重排丢失手动进度的问题；轴范围固定，执行价标记、原曲线虚线、移动方向和当前点同屏呈现。不同阶段的说明和图例预留高度，避免坐标区上下跳动。</p>
+<p>新增动画自查：8组手算例、54项中间计算、640个中间渲染状态；暂停/继续、阶段按钮过渡、参数打断、键盘进度、窗口变化保留进度、切换章节停止旧动画、减少动态设置通过。回归的42图/80布局、660参数状态、96阅读器布局、13表94行与106个仓库测试通过。截图和报告分别见 <code>qa-fusion/</code> 与 <code>fusion-checks.json</code>。这些依旧是作者验证。</p></main></body></html>

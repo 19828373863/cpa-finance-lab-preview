@@ -1,0 +1,249 @@
+/* D2L reference reading shell: book navigation, continuous text, page outline. */
+:root {
+  --reader-page: #fafafa;
+  --reader-nav: #ffffff;
+  --reader-accent: #2196f3;
+  --reader-bar: #2196f3;
+  --reader-on-bar: #ffffff;
+  --reader-ink: rgba(0, 0, 0, .87);
+  --reader-muted: #757575;
+  --reader-bar-height: 64px;
+  --reader-book-width: 240px;
+  --reader-toc-width: 230px;
+  --reader-prose-font: "Roboto", "Noto Sans SC Sliced", "Noto Sans SC", sans-serif;
+  --reader-math-font: "Cambria Math", "STIX Two Math", math;
+}
+:root[data-theme="dark"] {
+  --reader-page: var(--sheet);
+  --reader-nav: var(--sheet);
+  --reader-accent: var(--blue);
+  --reader-bar: #1976d2;
+  --reader-ink: var(--label);
+  --reader-muted: var(--secondary);
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: auto; }
+body { margin: 0; background: var(--reader-page); color: var(--reader-ink); font-family: var(--reader-prose-font); font-size: 16px; line-height: 24px; font-variant-numeric: lining-nums tabular-nums; overflow-wrap: break-word; }
+button, select { font: inherit; }
+button, a, select, summary { touch-action: manipulation; }
+button, select, summary { cursor: pointer; }
+button, a { color: var(--reader-accent); }
+a { text-underline-offset: 3px; text-decoration-color: color-mix(in srgb, var(--reader-accent) 50%, transparent); overflow-wrap: anywhere; }
+:is(button, a, select, summary):focus-visible { outline: 2px solid var(--focus); outline-offset: 3px; }
+[hidden] { display: none !important; }
+.skip { position: fixed; top: -70px; left: 16px; z-index: 60; background: var(--sheet); padding: 12px; }
+.skip:focus { top: 8px; }
+.live { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+
+/* The book column begins at the viewport edge; the page is not a framed card. */
+.reader-layout { --prose-measure: 920px; display: grid; grid-template-columns: var(--reader-book-width) minmax(0, 1fr) var(--reader-toc-width); align-items: start; min-height: calc(100dvh - var(--reader-bar-height)); }
+html[data-reading-width="standard"] .reader-layout { --prose-measure: 760px; }
+.reader-paper { grid-column: 2; min-width: 0; padding: 0 6.28% 48px; background: var(--reader-page); }
+.reader-paper > :is(.unit-heading, .reading-tools, #reader-content, .page-turn, .source-footer, #load-error) { width: 100%; max-width: var(--prose-measure); margin-inline: auto; }
+
+/* A blue reading bar carries the current location, edition and appearance. */
+.reader-header { position: sticky; top: 0; z-index: 40; display: flex; align-items: center; gap: 20px; height: var(--reader-bar-height); margin-left: var(--reader-book-width); padding: 0 32px 0 48px; background: var(--reader-bar); color: var(--reader-on-bar); box-shadow: 0 2px 2px color-mix(in srgb, var(--label) 14%, transparent); }
+.reader-identity, .reader-breadcrumbs, .header-tools, .appearance-label { display: flex; align-items: center; min-width: 0; }
+.reader-identity { position: absolute; left: 8px; top: 12px; gap: 12px; }
+.reader-breadcrumbs { flex: 1; gap: 12px; font-size: 16px; line-height: 24px; }
+.reader-breadcrumbs > :first-child { flex: none; }
+.reader-breadcrumbs :is(#unit-eyebrow, .eyebrow) { min-width: 0; margin: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.header-tools { flex: none; gap: 12px; }
+.appearance-label { gap: 8px; font-size: 13px; }
+.reader-header :is(button, a, summary) { color: var(--reader-on-bar); }
+.sidebar-toggle { display: inline-flex; align-items: center; justify-content: center; width: 32px; min-height: 40px; padding: 0; border: 0; background: none; font-size: 0; }
+.sidebar-toggle::before { content: ''; width: 18px; height: 2px; background: currentColor; box-shadow: 0 -6px 0 currentColor, 0 6px 0 currentColor; }
+.sidebar-toggle:hover { background: color-mix(in srgb, var(--reader-on-bar) 12%, transparent); }
+select { min-width: 0; min-height: 36px; padding: 4px 8px; border: 1px solid var(--separator); border-radius: 2px; background: var(--sheet); color: var(--label); font-size: 14px; line-height: 24px; }
+.appearance-label select { width: 78px; min-height: 32px; border-color: color-mix(in srgb, var(--reader-on-bar) 65%, transparent); background: transparent; color: var(--reader-on-bar); font-size: 13px; }
+.appearance-label option { background: var(--sheet); color: var(--label); }
+.reader-header :is(button, select):focus-visible { outline-color: var(--reader-on-bar); }
+.version-bar { flex: none; }
+.version-tabs { display: flex; align-items: center; gap: 12px; }
+.version-tabs button { min-height: 40px; padding: 8px 4px; border: 0; border-bottom: 2px solid transparent; background: none; font-size: 14px; line-height: 24px; white-space: nowrap; }
+.version-tabs button:hover { border-bottom-color: color-mix(in srgb, var(--reader-on-bar) 55%, transparent); }
+.version-tabs button[aria-pressed="true"] { border-bottom-color: var(--reader-on-bar); font-weight: 700; }
+
+/* A plain book identity and chapter list replace the inset promotional sidebar. */
+.chapter-nav { position: fixed; top: 0; bottom: 0; left: 0; z-index: 45; width: var(--reader-book-width); overflow: auto; overscroll-behavior: contain; background: var(--reader-nav); border-right: 1px solid var(--separator); }
+.book-identity { display: flex; align-items: center; min-height: 86px; padding: 20px 16px; border-bottom: 1px solid var(--separator); }
+.brand { display: flex; align-items: center; gap: 12px; color: var(--label-2); font-size: 14px; line-height: 20px; font-weight: 400; }
+.brand-mark { color: var(--reader-accent); font-size: 24px; line-height: 32px; font-weight: 400; letter-spacing: .02em; }
+.book-title { margin: 20px 16px 8px; color: var(--reader-muted); font-size: 13px; line-height: 20px; font-weight: 600; }
+.chapter-nav nav { padding-bottom: 24px; }
+.chapter-nav nav button { display: flex; gap: 8px; width: 100%; min-height: 40px; padding: 8px 16px; border: 0; background: none; color: var(--reader-muted); text-align: left; font-size: 16px; line-height: 24px; font-weight: 500; }
+.chapter-nav nav button span { flex: none; font-variant-numeric: tabular-nums; }
+.chapter-nav nav button:hover { color: var(--reader-accent); }
+.chapter-nav nav button[aria-current="page"] { color: var(--reader-accent); font-weight: 700; }
+.chapter-bottom { margin: 16px; font-size: 13px; line-height: 20px; }
+
+/* The page outline is a separate, quiet reading rail. */
+.page-nav { grid-column: 3; position: sticky; top: var(--reader-bar-height); max-height: calc(100dvh - var(--reader-bar-height)); min-width: 0; overflow: auto; overscroll-behavior: contain; padding: 16px 12px 24px; }
+.page-nav h2 { margin: 0 0 12px; color: var(--label-2); font-size: 14px; line-height: 24px; font-weight: 700; }
+#unit-toc { display: grid; gap: 0; margin: 0; padding: 0; }
+#unit-toc .page-toc-link { display: block; width: 100%; padding: 4px 8px; border: 0; border-left: 2px solid transparent; background: none; color: var(--reader-ink); text-align: left; font-size: 14px; line-height: 18px; font-weight: 500; }
+#unit-toc .page-toc-link:hover { color: var(--reader-accent); }
+#unit-toc .page-toc-link[aria-current="location"] { border-left-color: var(--reader-accent); color: var(--reader-accent); font-weight: 600; }
+.unit-heading { padding-top: 24px; }
+.unit-heading h1 { margin: 0 0 24px; color: var(--reader-accent); font-size: 32px; line-height: 36px; font-weight: 400; text-wrap: balance; }
+.reading-tools { display: none; }
+.mobile-contents { display: flex; align-items: center; gap: 8px; min-width: 0; }
+.mobile-contents label { flex: none; color: var(--secondary); font-size: 13px; }
+.mobile-contents select { flex: 1; width: 100%; }
+#page-toc-toggle { display: none; flex: none; align-items: center; justify-content: center; min-height: 36px; padding: 4px 8px; border: 1px solid color-mix(in srgb, var(--reader-on-bar) 65%, transparent); border-radius: 2px; background: transparent; color: var(--reader-on-bar); font-size: 13px; line-height: 24px; white-space: nowrap; }
+#page-toc-toggle:hover { background: color-mix(in srgb, var(--reader-on-bar) 12%, transparent); }
+
+/* Continuous D2L-scale text: 16/24 body, 16px paragraph rhythm, light blue heads. */
+#reader-content { font-size: 16px; line-height: 24px; }
+#reader-content > section { width: 100%; margin: 0 0 24px; scroll-margin-top: calc(var(--reader-bar-height) + 24px); }
+#reader-content > section:last-child { margin-bottom: 0; }
+#reader-content > section > :last-child { margin-bottom: 0; }
+#reader-content h1 { margin: 24px 0; color: var(--reader-accent); font-size: 32px; line-height: 36px; font-weight: 400; text-wrap: balance; }
+#reader-content h2 { margin: 24px 0 16px; color: var(--reader-accent); font-size: 28px; line-height: 32px; font-weight: 400; text-wrap: balance; }
+#reader-content h3 { margin: 24px 0 16px; color: var(--reader-accent); font-size: 24px; line-height: 28px; font-weight: 400; }
+#unit-title:focus, #reader-content :is(h1, h2, h3, h4, h5, h6)[tabindex="-1"]:focus { outline: none; }
+#reader-content :is(h4, h5, h6) { margin: 24px 0 12px; font-size: 20px; line-height: 24px; font-weight: 500; }
+#reader-content .section-heading { margin: 0 0 16px; padding-top: 24px; }
+#reader-content .section-title-stack { display: flex; align-items: baseline; flex-wrap: wrap; gap: 0 12px; min-width: 0; }
+#reader-content .section-heading h2 { margin: 0; min-width: 0; }
+#reader-content .importance-label { color: var(--secondary); font-size: 11px; line-height: 16px; font-weight: 400; }
+#reader-content p { margin: 0 0 16px; }
+#reader-content :is(ol, ul) { margin: 0 0 16px; padding-left: 1.5em; }
+#reader-content li { margin-bottom: 4px; }
+#reader-content img { max-width: 100%; height: auto; }
+
+/* Semantic teaching marks remain in the prose, never as competing cards. */
+#reader-content :is(strong, b, dfn) { font-weight: 700; font-style: normal; }
+#reader-content u { text-decoration-thickness: 1px; text-underline-offset: .16em; }
+#reader-content mark { background: linear-gradient(transparent 60%, var(--highlight) 60%, var(--highlight) 96%, transparent 96%); color: inherit; box-decoration-break: clone; -webkit-box-decoration-break: clone; }
+#reader-content .income { color: var(--income); }
+#reader-content .profit { color: var(--profit); }
+#reader-content .tag { display: inline-block; margin-right: .65em; font-size: 13px; line-height: 20px; font-weight: 700; white-space: nowrap; vertical-align: baseline; }
+#reader-content :is(.definition-box, .calc, .takeaway) { position: relative; margin: 16px 0; padding: 0; border: 0; background: transparent; color: var(--label); font-size: 1em; line-height: inherit; }
+#reader-content :is(.definition-box, .calc, .takeaway) > .tag + p { display: inline; margin: 0; }
+#reader-content :is(.definition-box, .calc, .takeaway) > p + p { margin-top: 16px; }
+#reader-content :is(.definition-box, .calc, .takeaway) > :last-child { margin-bottom: 0; }
+#reader-content .tag.definition { color: var(--blue); }
+#reader-content .tag.example { color: var(--orange); }
+#reader-content .tag.conclusion { color: var(--green); }
+#reader-content .takeaway > .tag.conclusion { font-size: 16px; font-weight: 700; }
+#reader-content .editorial-note, #reader-content .original-image-note { margin: 16px 0; color: var(--label-2); font-style: normal; }
+#reader-content .original-image-label { margin-bottom: 8px; color: var(--secondary); font-size: 13px; line-height: 20px; }
+#reader-content .original-image-note > :last-child { margin-bottom: 0; }
+.transcription-note { margin-bottom: 16px; color: var(--label-2); font-size: 14px; line-height: 20px; }
+#reader-content .reading-exercise { margin: 16px 0; }
+#reader-content .reading-label { margin-right: .6em; color: var(--secondary); font-size: 13px; }
+#reader-content details { margin: 16px 0; padding: 0; border: 0; background: transparent; font-size: 1em; line-height: inherit; }
+#reader-content details summary { min-height: 32px; color: var(--reader-accent); font-size: 16px; line-height: 24px; }
+#reader-content details[open] > summary { margin-bottom: 12px; }
+#reader-content details > :last-child:not(summary) { margin-bottom: 0; }
+#reader-content .theory-context { margin-top: 12px; color: var(--secondary); font-size: 13px; line-height: 20px; }
+
+/* Complete expression groups keep their natural baseline and one scroll surface. */
+#reader-content math { color: inherit; font-family: var(--reader-math-font); font-size: 1em; font-weight: 400; line-height: normal; math-style: normal; font-variant-numeric: lining-nums tabular-nums; }
+#reader-content math annotation { display: none; }
+#reader-content .authored-math { font-size: 1em; font-weight: 400; letter-spacing: normal; word-spacing: normal; }
+#reader-content .math-expression, #reader-content .formula { font-variant-numeric: tabular-nums; }
+#reader-content .math-term { white-space: nowrap; }
+#reader-content .formula-scroll { display: inline-block; max-width: 100%; padding: 2px 0 3px; overflow-x: auto; overflow-y: hidden; overscroll-behavior-x: contain; scrollbar-width: thin; vertical-align: middle; line-height: normal; overflow-wrap: normal; text-indent: 0; }
+#reader-content [data-formula-kind=notation] .formula-scroll { padding: 0; overflow: visible; vertical-align: baseline; }
+#reader-content .formula-scroll.is-display { display: block; margin: 16px 0; padding: 3px 0 5px; text-align: center; }
+#reader-content .formula-scroll.is-display math { width: max-content; margin: 0 auto; }
+#reader-content p.formula, #reader-content p.equation-set { width: fit-content; max-width: 100%; margin: 16px auto; padding: 0; border: 0; background: transparent; font-weight: 400; line-height: inherit; overflow-wrap: normal; text-align: left; }
+#reader-content p.formula > .authored-math { display: block; max-width: 100%; }
+#reader-content p.formula:has(> .authored-math) > br { display: none; }
+#reader-content .authored-math.is-equation { display: block; width: fit-content; max-width: 100%; margin: 8px auto; }
+#reader-content .equation-set > .authored-math.is-equation { width: auto; margin: 8px 0; }
+#reader-content .equation-punctuation { margin-left: 3px; color: inherit; font-size: 1em; }
+#reader-content .calculation-group { overflow: visible; vertical-align: baseline; }
+#reader-content .calculation-line { display: inline-block; min-width: max-content; white-space: nowrap; font-family: var(--reader-math-font); font-size: 1em; font-variant-numeric: lining-nums tabular-nums; }
+#reader-content .calculation-line .authored-math { display: inline; }
+#reader-content .calculation-line .math-variable { font-style: italic; }
+#reader-content .calculation-line .math-number { font-style: normal; }
+#reader-content .calculation-line .math-prose { font-family: var(--reader-prose-font); font-style: normal; }
+#reader-content .calculation-line .calculation-label { white-space: nowrap; margin-inline-end: .25em; }
+#reader-content .table-calculation { display: inline-block; }
+#reader-content .calculation-line .math-operator { display: inline; padding-inline: .12em; font-style: normal; }
+#reader-content .calculation-line .math-operator.is-relation { padding-inline: .2em; }
+#reader-content .calculation-line .math-operator.is-unary { padding-inline: 0; }
+#reader-content .calculation-line :is(sub, sup) { line-height: 0; }
+#reader-content .formula-scroll.is-overflowing { display: block; max-width: 100%; margin: 8px 0; padding: 4px 0 2px; overflow-x: auto; overflow-y: hidden; outline-offset: 3px; }
+#reader-content .formula-scroll.is-overflowing::after { content: '左右滑动查看完整公式'; position: sticky; left: 0; display: block; width: max-content; max-width: 100%; margin-top: 4px; color: var(--secondary); font-size: 12px; line-height: 18px; font-family: inherit; }
+
+/* Tables retain their own local scroll surface, without enclosing cards. */
+#reader-content :is(.table-wrap, .table-scroll) { max-width: 100%; margin: 16px 0; border: 0; }
+#reader-content .table-scroll, #reader-content .table-wrap:not(:has(.table-scroll)) { overflow-x: auto; overscroll-behavior-x: contain; }
+#reader-content .table-wrap > .table-scroll { margin: 0; }
+#reader-content table { width: 100%; min-width: 100%; margin: 0; border-collapse: collapse; text-align: left; font-size: 16px; line-height: 24px; font-variant-numeric: tabular-nums; }
+#reader-content :is(th, td) { min-width: 84px; padding: 8px 10px; border-bottom: 1px solid var(--separator); vertical-align: top; }
+#reader-content thead th { background: var(--fill); color: var(--label-2); font-size: 14px; font-weight: 600; }
+#reader-content tbody th { color: var(--label); font-weight: 600; }
+#reader-content caption { padding: 0 0 8px; color: var(--secondary); text-align: left; font-size: 13px; line-height: 20px; }
+#reader-content :is(th, td) > :last-child { margin-bottom: 0; }
+
+.page-turn { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-block: 32px 24px; padding-top: 16px; border-top: 1px solid var(--separator); }
+.page-turn button { max-width: 42%; min-height: 40px; padding: 4px 0; border: 0; background: none; text-align: left; font-size: 14px; line-height: 20px; }
+.page-turn button:last-child { text-align: right; }
+.page-turn button:disabled { color: var(--secondary); cursor: default; }
+.page-turn button:not(:disabled):hover { text-decoration: underline; }
+.page-turn span { flex: none; color: var(--secondary); font-size: 12px; }
+.source-footer { margin-top: 24px; padding-top: 16px; border-top: 1px solid var(--separator); color: var(--secondary); font-size: 13px; line-height: 20px; }
+.source-footer summary { min-height: 32px; padding: 6px 0; }
+.source-footer p { margin: 12px 0; }
+#source-notice { margin: 0 0 16px; }
+#load-error { padding: 16px 0; font-size: 16px; line-height: 24px; }
+#load-error button { min-height: 36px; padding: 4px 12px; border: 1px solid var(--separator); background: var(--sheet); }
+
+@media (min-width: 1100px) {
+  html[data-chapter-nav="collapsed"] .reader-header { margin-left: 0; }
+  html[data-chapter-nav="collapsed"] .reader-layout { grid-template-columns: minmax(0, 1fr) var(--reader-toc-width); }
+  html[data-chapter-nav="collapsed"] .chapter-nav { display: none; }
+  html[data-chapter-nav="collapsed"] .reader-paper { grid-column: 1; }
+  html[data-chapter-nav="collapsed"] .page-nav { grid-column: 2; }
+}
+@media (max-width: 1099px) {
+  .reader-header { margin-left: 0; padding-right: 20px; gap: 16px; }
+  #page-toc-toggle { display: inline-flex; }
+  .reader-layout { display: block; }
+  .reader-paper { max-width: calc(920px + 2 * 6.28vw); margin-inline: auto; padding-inline: 6.28%; }
+  .chapter-nav { display: none; top: var(--reader-bar-height); z-index: 35; width: min(var(--reader-book-width), 85vw); }
+  html[data-chapter-nav="expanded"] .chapter-nav { display: block; }
+  .page-nav { display: none; position: fixed; top: var(--reader-bar-height); right: 0; bottom: 0; z-index: 35; width: min(300px, 88vw); max-height: none; border-left: 1px solid var(--separator); background: var(--reader-page); }
+  html[data-page-toc="open"] .page-nav { display: block; }
+  .reading-tools { display: flex; align-items: center; gap: 12px; margin-block: 0 24px; }
+  .mobile-contents { flex: 1; }
+}
+@media (max-width: 767px) {
+  :root { --reader-bar-height: 104px; }
+  .reader-header { flex-wrap: wrap; gap: 0 12px; padding-right: 16px; }
+  .reader-header :is(.reader-breadcrumbs, .header-tools) { min-height: 64px; }
+  .header-tools { gap: 8px; }
+  .reader-breadcrumbs { font-size: 13px; line-height: 20px; gap: 8px; }
+  .appearance-label > span { display: none; }
+  .appearance-label select { width: 68px; }
+  .version-bar { order: 4; flex-basis: calc(100% + 32px); height: 40px; margin-left: -32px; }
+  .version-tabs { justify-content: center; gap: 24px; }
+  .version-tabs button { padding-top: 6px; padding-bottom: 6px; }
+  .reader-paper { padding: 0 20px 32px; }
+  .unit-heading h1 { font-size: 28px; line-height: 32px; }
+  #reader-content .section-title-stack { gap: 4px 8px; }
+  .reading-tools { gap: 8px; }
+  #reader-content :is(th, td) { padding: 8px; }
+}
+@media (max-width: 359px) {
+  .reader-header { padding-right: 12px; gap: 0 8px; }
+  .reader-breadcrumbs > :first-child { display: none; }
+  .reader-paper { padding-inline: 16px; }
+  .version-tabs { gap: 16px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  * { scroll-behavior: auto !important; }
+}
+@media print {
+  .reader-header, .chapter-nav, .page-nav, .reading-tools, .page-turn, .source-footer { display: none; }
+  .reader-layout { display: block; min-height: 0; }
+  .reader-paper { padding: 0; background: white; }
+  .reader-paper > :is(.unit-heading, #reader-content) { max-width: none; }
+  #reader-content :is(.table-wrap, .table-scroll) { overflow: visible; }
+  body { background: white; }
+}

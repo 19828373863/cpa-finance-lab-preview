@@ -1,0 +1,19 @@
+/* Layout only; chart roles, line types and colors come from canonical figures.css. */
+#reader-content .teaching-figure{margin:36px 0 40px;padding-top:22px;border-top:1px solid var(--separator);font-size:16px;line-height:1.8}
+#reader-content .teaching-figure figcaption{font-size:18px;line-height:1.6;margin-bottom:12px}
+.experiment-number{display:block;color:var(--secondary);font-size:12px;letter-spacing:.06em;margin-bottom:6px}.experiment-title{font-weight:600}
+#reader-content .teaching-figure .fig-hint{font-size:16px;margin:0 0 20px;color:var(--label-2)}
+.experiment-controls{display:grid;gap:14px;margin-bottom:16px}.experiment-control{display:grid;grid-template-columns:minmax(0,1fr) 108px;gap:4px 16px;align-items:center}.experiment-control label{grid-column:1/-1;font-size:14px;color:var(--label-2)}
+.experiment-control input{min-width:0;width:100%;min-height:44px;font:inherit;accent-color:var(--blue)}.experiment-control input[type=number]{background:var(--sheet);color:var(--label);border:1px solid var(--separator);border-radius:6px;padding:7px 9px;font-variant-numeric:tabular-nums}.experiment-choice{display:flex;align-items:center;gap:16px;font-size:14px}.experiment-choice select{flex:1;min-width:0}
+.experiment-plot{width:100%;min-width:0}.experiment-plot svg{margin:0 auto;max-width:100%;height:auto}
+#reader-content .experiment-plot svg text{font-family:var(--font);font-size:15px;fill:var(--label-2)}#reader-content .experiment-plot svg .figure-node-value{font-weight:600;fill:var(--figure-main)}#reader-content .experiment-plot svg .figure-node.is-focus{stroke:var(--mark);stroke-width:2.5}
+#reader-content .teaching-figure .plot-unit{font-size:13px;color:var(--secondary);margin:12px 0 6px}.experiment-result{background:var(--fill);border-radius:8px;padding:16px 18px;min-height:100px}
+#reader-content .experiment-result p{font-size:16px;line-height:1.85;margin:0}.experiment-equation{font-variant-numeric:tabular-nums;color:var(--label)}#reader-content .experiment-result .experiment-conclusion{margin-top:10px;color:var(--label-2)}
+.experiment-actions{display:flex;gap:8px;flex-wrap:wrap;margin:16px 0}.experiment-actions button{font:inherit;font-size:14px;line-height:1.5;min-height:44px;padding:8px 14px;border:1px solid var(--separator);border-radius:7px;color:var(--blue);background:var(--sheet)}.experiment-actions button[aria-pressed=true]{background:var(--select);color:var(--label);font-weight:600}
+#reader-content .teaching-figure .figure-note{font-size:13px;line-height:1.9;color:var(--secondary);margin:12px 0 0}#reader-content .figure-revisit{font-size:14px;line-height:1.9;margin:20px 0}
+#reader-content .lesson-figure .figure-timeline ol,#reader-content .lesson-figure .risk-path{list-style:none;padding-left:0}#reader-content .lesson-figure h3{font-size:17px}
+@media(max-width:480px){.experiment-control{grid-template-columns:minmax(0,1fr) 96px;gap:4px 10px}#reader-content .experiment-result{padding:14px}.experiment-actions button{flex:1 1 auto}.cashflow-row{grid-template-columns:1fr 1fr 1fr 1fr 1fr;font-size:14px}}
+@media(prefers-reduced-motion:reduce){.teaching-figure *{animation:none!important;transition:none!important}}
+@media print{.experiment-controls,.experiment-actions{display:none}.teaching-figure{break-inside:avoid}}
+
+.figure-jump{display:block;margin-top:10px;min-height:44px;border:0;padding:4px 0;background:none;font-size:14px;text-align:left}

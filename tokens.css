@@ -1,0 +1,145 @@
+/* CPA Finance Lab · 教材视觉规范 v0.6.1 · 设计变量（整站统一配色）
+   方向：学习笔记。保留用户要的“通透感”（类苹果：毛玻璃、系统字体、iOS 控件），但页面是一篇笔记，
+   不是产品介绍：左对齐的文档、常驻目录、定义和计算是主角。本文件只定义变量，组件样式见 textbook.css。
+   文字色实测对比度 ≥ 4.5:1，图形 ≥ 3:1，数值见 UI_SPEC.md。
+   整站只用本文件里的颜色：页面自己的样式表只写 var(--…)，不写十六进制颜色值。
+   主题：默认跟随系统；<html data-theme="light"> 强制浅色，data-theme="dark" 强制深色。 */
+
+:root {
+  /* 桌面与纸：电脑上一张白纸放在浅灰桌面上，手机上白纸铺满 */
+  --desk: #f2f2f7;
+  --sheet: #ffffff;
+  --fill: #f5f5f7;                        /* 纸上的浅灰块：公式、试一试、适用条件 */
+  --tile: #ffffff;                        /* 灰块里的白色小块 */
+  --control: rgba(118, 118, 128, .12);   /* 分段控件轨道、灰色胶囊 */
+  --control-on: #ffffff;
+  --track: rgba(120, 120, 128, .2);
+  --thumb: #ffffff;
+  --separator: rgba(60, 60, 67, .14);
+
+  /* 毛玻璃：顶栏、侧栏目录、术语卡 */
+  --glass: rgba(255, 255, 255, .72);
+  --glass-side: rgba(242, 242, 247, .8);
+  --glass-thick: rgba(255, 255, 255, .88);
+  --glass-edge: rgba(255, 255, 255, .7);
+  --glass-shadow: 0 10px 36px rgba(0, 0, 0, .10), 0 1px 3px rgba(0, 0, 0, .06);
+  --blur: saturate(180%) blur(20px);
+
+  /* 文字 */
+  --label: #1d1d1f;
+  --label-2: #424245;
+  --secondary: #6e6e73;
+  --tertiary: #86868b;                    /* 只用于装饰性箭头，不用于需要阅读的文字 */
+
+  /* 系统色：文字色与淡底。整站只有这一套；橙色只有一种（v0.6.1 起，算例标签和净损益同色） */
+  --blue: #0066cc;    --blue-fill: #0071e3;   --blue-soft: #e8f1fc;
+  --indigo: #4b48c9;
+  --orange: #c2410c;  --orange-soft: #fff3e6;
+  --red: #c4001a;     --red-soft: #fff0f1;
+  --green: #1f7a37;   --green-soft: #eaf6ed;
+
+  /* 笔记专用 */
+  --highlight: rgba(255, 214, 10, .4);    /* 荧光笔划重点 */
+  --select: rgba(255, 204, 0, .28);       /* 侧栏里正在读的知识点，同“备忘录”的黄色选中 */
+
+  /* 图表按“角色”取色，各章通用：主线实线、对照线虚线、合计粗线、关键点空心圆。
+     按量固定取色，全书不变：到期净收入=主线、净损益=对照线、合计=粗线（制图规范 2.0，design/ui/FIGURE_SPEC.md） */
+  --series-main: var(--indigo);           /* 主线：靛，实线（蓝色只留给“可以点”的东西） */
+  --series-compare: var(--orange);        /* 对照线：橙，虚线 */
+  --series-total: var(--green);           /* 合计、结论：绿，粗实线 */
+  --mark: #c77c02;                        /* 关键点：金色空心点，只用于图形 */
+  --series-mark: var(--mark);
+  --on-mark: #1d1d1f;                     /* 关键点编号徽标上的字色，浅色与深色相同 */
+
+  /* 本讲的两个量：在正文、公式、算例、图表、结果区用同一种颜色 */
+  --income: var(--series-main);           /* 到期净收入 */
+  --profit: var(--series-compare);        /* 净损益 */
+  --chart-grid: rgba(60, 60, 67, .09);
+  --chart-axis: rgba(60, 60, 67, .3);
+
+  --focus: #0071e3;
+  --grabber: rgba(60, 60, 67, .3);
+  --backdrop: rgba(0, 0, 0, .22);          /* 术语卡弹出时页面变暗 */
+
+  /* 字体：苹果设备上是 SF Pro 与苹方，其他设备回落到系统无衬线 */
+  --font: -apple-system, BlinkMacSystemFont, "SF Pro Text", "PingFang SC", "Hiragino Sans GB", "Noto Sans SC", "Microsoft YaHei", system-ui, sans-serif;
+  --font-display: -apple-system, BlinkMacSystemFont, "SF Pro Display", "PingFang SC", "Hiragino Sans GB", "Noto Sans SC", "Microsoft YaHei", system-ui, sans-serif;
+  --font-rounded: ui-rounded, "SF Pro Rounded", var(--font);   /* 编号与数值 */
+
+  /* 字号：笔记的层级，克制，不做展示页式的大标题 */
+  --fs-body: 17px;
+  --lh-body: 1.8;
+  --fs-h1: clamp(28px, 1vw + 24px, 34px);
+  --fs-h2: clamp(21px, .5vw + 19px, 25px);
+  --fs-h3: 16px;
+
+  /* 版式 */
+  --gutter: 20px;                         /* 手机两侧留白 */
+  --sheet-w: 780px;                       /* 电脑上纸张宽度（含内边距），正文约 670px */
+  --sidebar: 264px;                       /* 宽屏左侧目录 */
+
+  /* 圆角 */
+  --r-sm: 8px;
+  --r-md: 10px;
+  --r-lg: 12px;
+  --r-sheet: 16px;
+  --r-pill: 999px;
+
+  /* 阴影 */
+  --shadow-sheet: 0 1px 3px rgba(0, 0, 0, .05), 0 10px 30px rgba(0, 0, 0, .05);
+  --shadow-tile: 0 1px 2px rgba(0, 0, 0, .06);
+  --shadow-seg: 0 3px 8px rgba(0, 0, 0, .12), 0 3px 1px rgba(0, 0, 0, .04);
+  --shadow-thumb: 0 .5px 4px rgba(0, 0, 0, .12), 0 6px 13px rgba(0, 0, 0, .12);
+
+  color-scheme: light;
+}
+
+@media (min-width: 768px) {
+  :root { --fs-body: 18px; }
+}
+
+/* 深色：iOS 深色模式配色，逐层变亮 */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --desk: #000000; --sheet: #1c1c1e; --fill: #2c2c2e; --tile: #3a3a3c;
+    --control: rgba(118, 118, 128, .24); --control-on: #636366; --track: rgba(120, 120, 128, .36); --thumb: #ffffff;
+    --separator: rgba(84, 84, 88, .65);
+    --glass: rgba(28, 28, 30, .66); --glass-side: rgba(28, 28, 30, .72); --glass-thick: rgba(44, 44, 46, .86);
+    --glass-edge: rgba(255, 255, 255, .08);
+    --glass-shadow: 0 10px 36px rgba(0, 0, 0, .5), 0 1px 3px rgba(0, 0, 0, .3);
+    --label: #f5f5f7; --label-2: #d1d1d6; --secondary: #aeaeb2; --tertiary: #8e8e93;
+    --blue: #64b0ff; --blue-fill: #0a84ff; --blue-soft: rgba(10, 132, 255, .2);
+    --indigo: #a5a3ff;
+    --orange: #ff9f0a; --orange-soft: rgba(255, 159, 10, .16);
+    --red: #ff6961; --red-soft: rgba(255, 69, 58, .18);
+    --green: #30d158; --green-soft: rgba(48, 209, 88, .16);
+    --highlight: rgba(255, 214, 10, .3); --select: rgba(255, 204, 0, .24);
+    --mark: #ffd60a;
+    --chart-grid: rgba(235, 235, 245, .08); --chart-axis: rgba(235, 235, 245, .3);
+    --focus: #409cff; --grabber: rgba(235, 235, 245, .3); --backdrop: rgba(0, 0, 0, .5);
+    --shadow-sheet: none; --shadow-tile: none;
+    --shadow-seg: 0 3px 8px rgba(0, 0, 0, .4); --shadow-thumb: 0 .5px 4px rgba(0, 0, 0, .3), 0 6px 13px rgba(0, 0, 0, .3);
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --desk: #000000; --sheet: #1c1c1e; --fill: #2c2c2e; --tile: #3a3a3c;
+  --control: rgba(118, 118, 128, .24); --control-on: #636366; --track: rgba(120, 120, 128, .36); --thumb: #ffffff;
+  --separator: rgba(84, 84, 88, .65);
+  --glass: rgba(28, 28, 30, .66); --glass-side: rgba(28, 28, 30, .72); --glass-thick: rgba(44, 44, 46, .86);
+  --glass-edge: rgba(255, 255, 255, .08);
+  --glass-shadow: 0 10px 36px rgba(0, 0, 0, .5), 0 1px 3px rgba(0, 0, 0, .3);
+  --label: #f5f5f7; --label-2: #d1d1d6; --secondary: #aeaeb2; --tertiary: #8e8e93;
+  --blue: #64b0ff; --blue-fill: #0a84ff; --blue-soft: rgba(10, 132, 255, .2);
+  --indigo: #a5a3ff;
+  --orange: #ff9f0a; --orange-soft: rgba(255, 159, 10, .16);
+  --red: #ff6961; --red-soft: rgba(255, 69, 58, .18);
+  --green: #30d158; --green-soft: rgba(48, 209, 88, .16);
+  --highlight: rgba(255, 214, 10, .3); --select: rgba(255, 204, 0, .24);
+  --mark: #ffd60a;
+  --chart-grid: rgba(235, 235, 245, .08); --chart-axis: rgba(235, 235, 245, .3);
+  --focus: #409cff; --grabber: rgba(235, 235, 245, .3); --backdrop: rgba(0, 0, 0, .5);
+  --shadow-sheet: none; --shadow-tile: none;
+  --shadow-seg: 0 3px 8px rgba(0, 0, 0, .4); --shadow-thumb: 0 .5px 4px rgba(0, 0, 0, .3), 0 6px 13px rgba(0, 0, 0, .3);
+  color-scheme: dark;
+}

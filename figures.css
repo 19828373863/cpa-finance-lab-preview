@@ -1,0 +1,118 @@
+/* CPA Finance Lab · Figure system 1.0 · requires tokens.css.
+   Canonical source: design/ui/figures.css; copy verbatim when building chapters. */
+:root{--figure-main:var(--series-main);--figure-compare:var(--series-compare);--figure-total:var(--series-total);--figure-flow:var(--label-2);--figure-axis:var(--chart-axis);--figure-width:3;--figure-total-width:4;--figure-dash:7 4;--figure-guide-dash:3 4;--figure-label-size:14px;--figure-tick-size:16px}
+
+.lesson-figure,.experiment .lesson-figure{margin:24px 0 28px;padding:0;border-radius:0;background:transparent;box-shadow:none;font-size:1rem;line-height:1.7;min-width:0}
+.lesson-figure>figcaption{display:block;text-align:left;font-weight:650;color:var(--label);margin:0 0 16px;font-size:1em;line-height:1.7}
+.lesson-figure h3{font-size:1em;line-height:1.6;margin:0 0 10px;font-weight:600}
+.lesson-figure p{margin:10px 0}
+.lesson-figure .figure-note{color:var(--secondary);font-size:.88em;line-height:1.8;margin-top:14px}
+.figure-timeline+.figure-timeline,.swap-scenario+.swap-scenario,.hedge-lane+.hedge-lane{margin-top:24px}
+.figure-timeline ol,.risk-path{list-style:none;padding:0;margin:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:22px}
+.figure-timeline li,.risk-path li{position:relative;border-top:2px solid var(--figure-flow);padding:10px 0 0;min-width:0}
+.figure-timeline li+li::before,.risk-path li+li::before{content:'→';position:absolute;left:-20px;top:-15px;color:var(--figure-flow);background:var(--sheet);font-size:1.2em}
+.figure-timeline b,.figure-timeline li span{display:block}
+.figure-timeline li span{font-size:.9em;color:var(--label-2);margin-top:4px}
+.cashflow-row{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr) minmax(0,1fr) minmax(0,1fr) minmax(0,1fr);gap:4px;align-items:center;text-align:center;font-size:.9em}
+.cashflow-row>b{padding:8px 0;border-bottom:2px solid var(--separator);font-weight:600}
+.cashflow-row>span{color:var(--figure-flow);font-size:.9em}
+.cashflow-row>span strong{display:block;font-size:1.8em;line-height:1.1}
+.lesson-figure .figure-result{font-size:.94em;text-align:center;margin:12px 0 0}.figure-result strong{color:var(--figure-total)}
+.bar-label{display:flex;justify-content:space-between;gap:12px;font-size:.9em;margin:10px 0 5px}
+.value-bar,.margin-bar{height:16px;position:relative;background:var(--control)}
+.value-bar>span{display:block;width:100%;height:100%;background:var(--figure-main)}
+.margin-bar>span{display:block;width:10%;height:100%;background:var(--figure-compare)}
+.margin-outcomes{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin-top:20px}
+.margin-outcomes b,.margin-outcomes span,.margin-outcomes strong{display:block}
+.margin-outcomes b{font-size:.94em}.margin-outcomes span{font-size:.9em}.margin-outcomes strong{font-size:.88em;font-variant-numeric:tabular-nums;color:var(--label)}
+.figure-legend{display:flex;flex-wrap:wrap;gap:6px 18px;font-size:.9em}
+.figure-legend span::before{content:'';display:inline-block;width:20px;border-top:3px solid currentColor;vertical-align:middle;margin-right:6px}
+.payoff-key{color:var(--figure-main)}.profit-key{color:var(--figure-compare)}.profit-key::before{border-top-style:dashed!important}
+.option-figure svg{display:block;width:100%;max-width:540px;height:auto;margin:auto;overflow:visible}
+.option-exercise-band{fill:var(--orange-soft)}
+.figure-axis{stroke:var(--chart-axis);fill:none;stroke-width:1.3}
+.figure-grid{stroke:var(--chart-grid);fill:none;stroke-width:1}
+.figure-guide{stroke:var(--secondary);fill:none;stroke-dasharray:var(--figure-guide-dash);stroke-width:1}
+.figure-series-main,.option-payoff{stroke:var(--figure-main);fill:none;stroke-width:var(--figure-width)}
+.figure-series-compare,.option-profit{stroke:var(--figure-compare);fill:none;stroke-width:var(--figure-width);stroke-dasharray:var(--figure-dash)}
+.option-point{fill:var(--sheet);stroke:var(--figure-compare);stroke-width:2.5}
+.figure-ticks{font-family:var(--font);font-size:var(--figure-tick-size);fill:var(--label-2);font-variant-numeric:tabular-nums}
+.lesson-figure .plot-unit{font-size:.88em;margin:6px 0}.plot-x{text-align:right}
+.option-landmarks{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;text-align:center;font-size:.9em}
+.option-landmarks b,.option-landmarks span{display:block}.option-landmarks span{color:var(--label-2);font-size:.9em}
+.risk-path{font-size:.94em}.risk-path b{color:var(--figure-flow)}
+@media(max-width:480px){.figure-timeline ol,.risk-path{grid-template-columns:1fr;gap:18px;padding-left:12px}.figure-timeline li,.risk-path li{border-top:0;border-left:2px solid var(--figure-flow);padding:0 0 0 16px}.figure-timeline li+li::before,.risk-path li+li::before{content:'↓';left:-9px;top:-22px}.cashflow-row{font-size:.88em}.margin-outcomes{grid-template-columns:1fr;gap:12px}.margin-outcomes div{display:grid;grid-template-columns:1fr 1fr;gap:2px 12px}.margin-outcomes strong{grid-column:1/-1}}
+@media print{.lesson-figure{break-inside:avoid}.figure-timeline ol,.risk-path{grid-template-columns:repeat(3,minmax(0,1fr))}}
+
+/* The same figure roles for the existing interactive hedge chart. */
+
+.hedge-figure svg{width:100%;height:auto;display:block;overflow:visible}
+
+.chart-plot{position:relative;padding-left:54px}
+.chart-axis-caption{font-size:var(--figure-label-size);margin:6px 0}
+.chart-y-labels{position:absolute;inset:0 auto 0 0;width:46px;font-size:var(--figure-label-size);text-align:right;font-variant-numeric:tabular-nums}
+.chart-y-labels span{position:absolute;right:0;transform:translateY(-50%)}
+.chart-y-labels span:nth-child(1){top:15.52%}.chart-y-labels span:nth-child(2){top:50%}.chart-y-labels span:nth-child(3){top:84.48%}
+.chart-x-labels{margin-left:54px;display:flex;justify-content:space-between;font-size:var(--figure-label-size);font-variant-numeric:tabular-nums}
+.chart-x-caption{text-align:right}
+.chart-spot{stroke:var(--figure-main);fill:none;stroke-width:var(--figure-width)}
+.chart-futures{stroke:var(--figure-compare);fill:none;stroke-width:var(--figure-width);stroke-dasharray:var(--figure-dash)}
+.chart-total{stroke:var(--figure-total);fill:none;stroke-width:var(--figure-total-width)}
+.chart-axis{fill:none;stroke:var(--chart-axis);stroke-width:1}
+.chart-cursor{fill:none;stroke:var(--label-2);stroke-dasharray:var(--figure-guide-dash);stroke-width:1.5}
+
+.chart-key{display:flex;flex-wrap:wrap;gap:6px 18px;font-size:.9em;margin-bottom:8px}
+.chart-key span::before{content:'';display:inline-block;width:20px;border-top:3px solid;vertical-align:middle;margin-right:6px}
+.chart-key .spot{color:var(--figure-main)}.chart-key .futures{color:var(--figure-compare)}.chart-key .futures::before{border-top-style:dashed}.chart-key .total{color:var(--figure-total)}.chart-key .total::before{border-top-width:4px}
+
+/* Figure system 2.0: card parts, fixed per-quantity roles, tree and decision templates. See FIGURE_SPEC.md. */
+:root{--figure-part:var(--label-2)}
+.fig-head{display:flex;gap:14px;align-items:baseline;flex-wrap:wrap}
+.fig-no{font-size:.88em;font-weight:650;color:var(--secondary);font-variant-numeric:tabular-nums;white-space:nowrap}
+.fig-title{font-weight:650;line-height:1.5;color:var(--label)}
+.fig-tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px;font-weight:400}
+.fig-tag{padding:2px 10px;border-radius:var(--r-pill);background:var(--fill);font-size:.76em;color:var(--secondary);font-variant-numeric:tabular-nums;text-decoration:none}
+.lesson-figure .fig-hint{margin:0 0 14px;color:var(--label-2);font-size:.94em}
+.fig-hint b{color:var(--secondary);font-weight:650;margin-right:10px}
+.fig-points{list-style:none;margin:14px 0 0;padding:0;display:grid;gap:8px}
+.fig-points li{display:flex;gap:12px;align-items:flex-start;color:var(--label-2);font-size:.94em;line-height:1.7}
+.fig-badge{display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;border-radius:50%;background:var(--mark);color:var(--on-mark);font-size:13px;font-weight:700;flex-shrink:0;margin-top:3px}
+.fig-swatch{width:22px;height:16px;border-radius:3px;flex-shrink:0;margin-top:6px;background:var(--orange-soft)}
+.lesson-figure .fig-takeaway{margin:14px 0 0;background:var(--fill);border-radius:var(--r-md);padding:14px 18px}
+.fig-takeaway b{margin-right:10px}
+.figure-series-total{stroke:var(--figure-total);fill:none;stroke-width:var(--figure-total-width);stroke-linejoin:round}
+.figure-series-part{stroke:var(--figure-part);fill:none;stroke-width:2;stroke-linejoin:round}
+.figure-band{fill:var(--orange-soft)}
+.figure-point{fill:var(--sheet);stroke:var(--mark);stroke-width:2.5}
+.figure-badge circle{fill:var(--mark)}
+.figure-badge text{fill:var(--on-mark);font-size:13px;font-weight:700;font-family:var(--font)}
+.figure-node{fill:var(--fill)}
+.figure-node-text{font-family:var(--font);font-size:15px;fill:var(--label-2);font-variant-numeric:tabular-nums}
+.figure-node-value{font-family:var(--font);font-size:17px;font-weight:700;fill:var(--figure-main);font-variant-numeric:tabular-nums}
+.figure-path-on{stroke:var(--figure-main);stroke-width:2.5;fill:none}
+.figure-path-off{stroke:var(--figure-axis);stroke-width:1.5;fill:none}
+.figure-path-rejected{stroke:var(--secondary);stroke-width:1.5;stroke-dasharray:5 4;fill:none}
+.figure-choice{fill:var(--sheet);stroke:var(--figure-flow);stroke-width:2}
+/* 2.0 · F 模板的 SVG 条形（复制核对、瀑布）与图内文字 */
+.figure-bar-part{fill:var(--fill)}
+.figure-bar-total{fill:var(--figure-total)}
+.figure-bar-frame{fill:none;stroke:var(--figure-part);stroke-width:1.5}
+.figure-label{font-family:var(--font);font-size:15px;fill:var(--label);font-variant-numeric:tabular-nums}
+/* 2.0 · 动画与交互版（第四节第 9 条）：静态图就是完整的初始状态；分步演示由读者点击推进，不自动播放。
+   data-show="k" 第 k 步出现，data-hide="k" 只在第 k 步之前显示，data-focus="k" 第 k 步高亮。 */
+.fig-player{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin:12px 0 0}
+.fig-player button{appearance:none;min-height:40px;padding:0 14px;border:0;border-radius:var(--r-pill);background:var(--blue-soft);font:inherit;font-size:14px;font-weight:600;color:var(--blue);cursor:pointer}
+.fig-player button:disabled{background:var(--control);color:var(--secondary);cursor:default}
+.fig-step-count{font-size:13px;font-weight:650;color:var(--secondary);font-variant-numeric:tabular-nums}
+.lesson-figure .fig-step-text{flex-basis:100%;margin:4px 0 0;min-height:3.4em;font-size:.94em;line-height:1.7;color:var(--label)}
+.lesson-figure [data-show],.lesson-figure [data-hide]{transition:opacity .4s ease}
+.lesson-figure .is-off{opacity:0}
+.lesson-figure:not([data-playing]) [data-hide]{display:none}
+.lesson-figure .figure-node.is-focus{stroke:var(--mark);stroke-width:2.5}
+.fig-ruler{margin:12px 0 0}
+.fig-ruler label{display:flex;justify-content:space-between;gap:12px;font-size:15px;font-weight:600}
+.fig-ruler input{width:100%}
+.fig-ruler output{font-variant-numeric:tabular-nums}
+.lesson-figure .fig-ruler-read{margin:6px 0 0;font-size:.94em;color:var(--label-2);font-variant-numeric:tabular-nums}
+@media (prefers-reduced-motion:reduce){.lesson-figure [data-show],.lesson-figure [data-hide]{transition:none}}
+@media print{.fig-player,.fig-ruler{display:none}}
